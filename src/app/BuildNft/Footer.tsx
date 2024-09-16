@@ -1,4 +1,3 @@
-
 import React from "react";
 import FooterColumn from "./FooterColumn";
 import SocialLinks from "./SocialLinks";
