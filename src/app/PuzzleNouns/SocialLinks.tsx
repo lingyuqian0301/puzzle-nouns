@@ -62,7 +62,7 @@ const SocialLinks: React.FC = () => {
         <SocialLink {...socialLinks[2]} />
         <SocialLink {...socialLinks[3]} />
       </div>
-      <div className="flex gap-5 justify-between mt-8 max-w-full whitespace-nowrap w-[219px]">
+      <div className="flex gap-10 mt-8 whitespace-nowrap">
         <SocialLink {...socialLinks[4]} />
         <SocialLink {...socialLinks[5]} />
       </div>

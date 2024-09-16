@@ -3,22 +3,26 @@ import React from "react";
 
 const Header: React.FC = () => {
   return (
-    <header className="flex flex-wrap gap-5 justify-between self-end mr-9 w-full max-w-[1168px] max-md:mr-2.5 max-md:max-w-full">
-      <nav className="flex flex-wrap gap-10 items-start self-start max-md:max-w-full">
-        <h1 className="text-xl font-bold uppercase text-zinc-500">
-          Puzzle Nouns
-        </h1>
-        <ul className="mt-3 text-lg text-black">
-          <li className="inline-block mr-4">
+    <header className="flex flex-wrap gap-10 justify-between self-end mr-9 w-full max-w-[1750px] max-md:mr-2.5 max-md:max-w-full">
+      <h1 className="text-3xl font-bold uppercase self-end text-zinc-500">
+        Puzzle Nouns
+      </h1>
+      <nav className="flex flex-wrap gap-10 items-start self-end max-md:max-w-full">
+        <ul className="ml-32 text-lg text-black">
+          <li className="inline-block mr-20">
             <a href="#" className="text-zinc-500">
               Home
             </a>
           </li>
-          <li className="inline-block mr-4">
-            <a href="#">About us</a>
+          <li className="inline-block mr-20">
+            <a href="#" className="text-zinc-500">
+              About us
+            </a>
           </li>
-          <li className="inline-block">
-            <a href="#">Event</a>
+          <li className="inline-block mr-20">
+            <a href="#" className="text-zinc-500">
+              Event
+            </a>
           </li>
         </ul>
       </nav>

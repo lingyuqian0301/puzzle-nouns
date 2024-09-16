@@ -7,7 +7,7 @@ import Footer from "./PuzzleNouns/Footer";
 import PuzzleSteps from "./PuzzleNouns/PuzzleSteps";
 const PuzzleNouns: React.FC = () => {
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col items-center">
       <Header />
       <Hero />
       <PuzzleSteps />
