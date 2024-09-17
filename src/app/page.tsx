@@ -1,9 +1,9 @@
 
 import React from "react";
-import Header from "./PuzzleNouns/Header";
-import Hero from "./PuzzleNouns/Hero";
-import Footer from "./PuzzleNouns/Footer";
-import PuzzleSteps from "./PuzzleNouns/PuzzleSteps";
+import Header from "./FormArtwork/Header";
+import Hero from "./PuzzleNoun/Hero";
+import Footer from "./PuzzleNoun/Footer";
+import PuzzleSteps from "./PuzzleNoun/PuzzleSteps";
 const PuzzleNouns: React.FC = () => {
   return (
     <div>

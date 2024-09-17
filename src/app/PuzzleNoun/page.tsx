@@ -1,6 +1,6 @@
 
 import React from "react";
-import Header from "./Header";
+import Header from "../FormArtwork/Header";
 import Hero from "./Hero";
 import PuzzleSteps from "./PuzzleSteps";
 import Footer from "./Footer";

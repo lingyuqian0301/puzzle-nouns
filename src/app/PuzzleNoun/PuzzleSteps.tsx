@@ -9,7 +9,7 @@ const steps = [
       "https://cdn.builder.io/api/v1/image/assets/TEMP/06be37a37d69506524a66dfa9c63256a79f2f78dfa425f983964f08fdd24d04a?placeholderIfAbsent=true&apiKey=0f10dcf47d4a4bb986b4f458dff7f90a",
     iconSrc:
       "https://cdn.builder.io/api/v1/image/assets/TEMP/3668580fc7c81e8dd2fb6298e2667dee076ed4f7014479ffb344a82c2c4aa803?placeholderIfAbsent=true&apiKey=0f10dcf47d4a4bb986b4f458dff7f90a",
-    to: "/Puzzle"
+    to: "/PuzzlePieces"
   },
   {
     title: "Form an Artwork",

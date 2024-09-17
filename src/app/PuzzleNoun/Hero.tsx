@@ -10,7 +10,7 @@ const Hero: React.FC = () => {
         className="absolute inset-0 object-cover w-full h-full z-0"
       />
       <h2 className="relative z-10 text-center text-2xl mt-auto">
-        "Create your Nous NFT with AI Art created by countless Nouns."
+        "Create your Nous NFT with AI<br></br> Art created by countless Nouns."
       </h2>
     </section>
   );
