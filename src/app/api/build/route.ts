@@ -9,10 +9,11 @@ const API_URL = 'https://api.openai.com/v1/images/generations';
 
 async function generateNFT(prompt: string): Promise<string> {
     try {
+        const modifiedPrompt = `${prompt} and a pixel art character in the style of Nouns, featuring colorful, cartoonish character with oversized glasses and a unique hat and small body`;
         const response = await axios.post(
             API_URL,
             {
-                prompt,
+                prompt: modifiedPrompt,
                 n: 1,
                 size: '1024x1024',
             },

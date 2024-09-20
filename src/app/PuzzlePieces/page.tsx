@@ -1,4 +1,3 @@
-
 "use client";
 import React, { useState, useEffect } from "react";
 import PuzzleGrid from "./PuzzleGrid";
@@ -11,7 +10,7 @@ import { FacebookShareButton, TwitterShareButton, LinkedinShareButton } from "re
 import WoodenFrame from "./WoodenFrame"; // Import the WoodenFrame component
 
 
-interface PuzzlePiecesProps {}
+interface PuzzlePiecesProps { }
 
 const PuzzlePieces: React.FC<PuzzlePiecesProps> = () => {
   const [isClient, setIsClient] = useState(false); // Track if the component is running on client
@@ -82,32 +81,38 @@ const PuzzlePieces: React.FC<PuzzlePiecesProps> = () => {
                 </button>
               </Link>
               <div className="ml-2 flex space-x-2">
-                <FacebookShareButton url={currentUrl}  hashtag="#NounsNFT">
-                  <button className="px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition" >
+                <FacebookShareButton url={currentUrl} hashtag="#NounsNFT">
+                  <div className="px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition" >
                     Share on Facebook
-                  </button>
+                  </div>
                 </FacebookShareButton>
                 <TwitterShareButton url={currentUrl} title="Check out my completed puzzle on Nouns NFT!" hashtags={["NounsNFT"]}>
-                  <button className="px-4 py-2 bg-blue-400 text-white font-semibold rounded-lg shadow-md hover:bg-blue-500 transition">
+                  <div className="px-4 py-2 bg-blue-400 text-white font-semibold rounded-lg shadow-md hover:bg-blue-500 transition">
                     Share on Twitter
-                  </button>
+                  </div>
                 </TwitterShareButton>
                 <LinkedinShareButton url={currentUrl} summary="Check out my completed puzzle on Nouns NFT!" source="Nouns NFT">
-                  <button className="px-4 py-2 bg-blue-700 text-white font-semibold rounded-lg shadow-md hover:bg-blue-800 transition">
+                  <div className="px-4 py-2 bg-blue-700 text-white font-semibold rounded-lg shadow-md hover:bg-blue-800 transition">
                     Share on LinkedIn
-                  </button>
+                  </div>
                 </LinkedinShareButton>
               </div>
             </div>
           </div>
-          <div className="mt-12 w-full max-md:mt-6 max-md:max-w-full">
+          <div className="mt-12 w-full max-md:mt-6 max-md:max-w-full flex justify-center items-center">
             <div className="flex gap-6 max-md:flex-col">
               {/* Wooden Frame Wrapping the PuzzleGrid */}
               <WoodenFrame>
-                <PuzzleGrid pieces={allPuzzlePieces} />
+                <PuzzleGrid
+                  pieces={allPuzzlePieces}
+                  onSelect={function (index: number): void {
+                    throw new Error("Function not implemented.");
+                  }}
+                />
               </WoodenFrame>
             </div>
           </div>
+
         </section>
       </main>
       <Footer />
