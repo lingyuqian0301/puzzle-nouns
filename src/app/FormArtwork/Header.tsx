@@ -1,27 +1,54 @@
+'use client';
+
+import React from 'react';
+import Link from 'next/link';
+
 const Header: React.FC = () => {
   return (
-    <header className="flex flex-col pr-6 pl-20 w-full max-md:px-5 max-md:max-w-full">
-      <div className="flex flex-wrap gap-5 justify-between w-full max-md:max-w-full">
-        <div className="flex flex-wrap gap-10 items-start self-start mt-1.5 max-md:max-w-full">
+    <header className="bg-white w-full shadow-md">
+      <div className="flex items-center justify-start px-12 py-0.5 w-full space-x-12">
+        {/* Logo Section */}
+        <div className="flex items-center space-x-4">
           <img
             loading="lazy"
             src="https://cdn.builder.io/api/v1/image/assets/TEMP/5d7bf6ecb7df695e67c9d06f6dd931206a4aa3f1b3654c3f770cdee5effc7eec?placeholderIfAbsent=true&apiKey=0f10dcf47d4a4bb986b4f458dff7f90a"
-            alt=""
-            className="object-contain shrink-0 max-w-full aspect-[11.76] w-[270px]"
-          />
-          <img
-            loading="lazy"
-            src="https://cdn.builder.io/api/v1/image/assets/TEMP/bbaec7794a3b2189c58b8ffc9e10e34a212bbe3b7f8a90e76dc57865fd21ac6b?placeholderIfAbsent=true&apiKey=0f10dcf47d4a4bb986b4f458dff7f90a"
-            alt=""
-            className="object-contain mt-2.5 aspect-[18.87] w-[266px]"
+            alt="Primary Logo"
+            className="h-16 w-auto object-contain"
           />
         </div>
-        <img
-          loading="lazy"
-          src="https://cdn.builder.io/api/v1/image/assets/TEMP/1eb348fbfe17e6c156e350bc5975a37c49d8de8b60b32f46b16533fd218ef4b3?placeholderIfAbsent=true&apiKey=0f10dcf47d4a4bb986b4f458dff7f90a"
-          alt=""
-          className="object-contain shrink-0 w-12 aspect-square"
-        />
+
+        {/* Navigation Links */}
+        <nav className="flex space-x-8 text-lg font-semibold">
+          <Link
+            href="/"
+            className="text-gray-800 hover:text-blue-600 transition-colors duration-300"
+          >
+            Home
+          </Link>
+          <Link
+            href="/about"
+            className="text-gray-800 hover:text-blue-600 transition-colors duration-300"
+          >
+            About
+          </Link>
+          <Link
+            href="/services"
+            className="text-gray-800 hover:text-blue-600 transition-colors duration-300"
+          >
+            Services
+          </Link>
+          <Link
+            href="/contact"
+            className="text-gray-800 hover:text-blue-600 transition-colors duration-300"
+          >
+            Contact
+          </Link>
+        </nav>
+
+        {/* Additional Icon */}
+        <div className="flex items-center">
+         
+        </div>
       </div>
     </header>
   );
