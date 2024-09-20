@@ -1,4 +1,3 @@
-
 import React from "react";
 import Header from "../FormArtwork/Header";
 import MainContent from "./word";

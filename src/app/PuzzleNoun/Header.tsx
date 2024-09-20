@@ -1,4 +1,5 @@
 
+import Link from "next/link";
 import React from "react";
 
 const Header: React.FC = () => {
@@ -10,9 +11,9 @@ const Header: React.FC = () => {
       <nav className="flex flex-wrap gap-10 items-start self-end max-md:max-w-full">
         <ul className="ml-32 text-lg text-black">
           <li className="inline-block mr-20">
-            <a href="#" className="text-zinc-500">
+            <Link href="/PuzzleNoun" className="text-zinc-500">
               Home
-            </a>
+            </Link>
           </li>
           <li className="inline-block mr-20">
             <a href="#" className="text-zinc-500">
