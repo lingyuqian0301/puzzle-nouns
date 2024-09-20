@@ -1,8 +1,11 @@
-import React from "react";
+// src\app\PuzzlePieces\PuzzlePieces.tsx
+
+import React from "react"; 
 import PuzzleGrid from "./PuzzleGrid";
 import PuzzleImage from "./PuzzleImage";
 import Header from "../FormArtwork/Header";
 import Footer from "../PuzzleNoun/Footer";
+import WoodenFrame from "./WoodenFrame"; // Import the WoodenFrame component
 
 interface PuzzlePiecesProps {}
 
@@ -42,37 +45,29 @@ const PuzzlePieces: React.FC<PuzzlePiecesProps> = () => {
     },
   ];
 
-  const largePuzzlePieces = [
-    {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/6ff2343cdd19432a08e94ddba1d66f2ae2fd55c0bd3316f074af344985b8333d?placeholderIfAbsent=true&apiKey=0f10dcf47d4a4bb986b4f458dff7f90a",
-      alt: "Large puzzle piece 1",
-    },
-    {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/3564e2d0150f83f4272b80ae42bf0960b7c8de1d881710d3621a81b5021bd4d4?placeholderIfAbsent=true&apiKey=0f10dcf47d4a4bb986b4f458dff7f90a",
-      alt: "Large puzzle piece 2",
-    },
-  ];
+  // Create 19 blank puzzle pieces
+  const blankPuzzlePieces = Array.from({ length: 19 }, (_, index) => ({
+    src: "https://via.placeholder.com/150?text=Blank",
+    alt: `Blank puzzle piece ${index + 1}`,
+  }));
+
+  // Combine small and blank puzzle pieces
+  const allPuzzlePieces = [...smallPuzzlePieces, ...blankPuzzlePieces];
 
   return (
     <>
       <Header />
       <main className="flex overflow-hidden flex-col items-center px-0 pt-32 bg-white pb-[300px] max-md:px-5 max-md:py-16">
         <section className="flex flex-col w-full max-w-[1600px] max-md:max-w-full">
-          <h1 className="self-center max-md\:pt-24  font-bold text-black">
-            Puzzle pieces(26/27)
+          <h1 className="self-center max-md:pt-24 font-bold text-black">
+            Puzzle pieces (27/27)
           </h1>
           <div className="mt-12 w-full max-md:mt-6 max-md:max-w-full">
             <div className="flex gap-6 max-md:flex-col">
-              <PuzzleGrid pieces={smallPuzzlePieces} />
-              <div className="flex flex-col ml-5 w-[80%] max-md:ml-0 max-md:w-full">
-                <div className="grow max-md:mt-10 max-md:max-w-full">
-                  <div className="flex gap-8 max-md:flex-col">
-                    {largePuzzlePieces.map((piece, index) => (
-                      <PuzzleImage key={index} src={piece.src} alt={piece.alt} />
-                    ))}
-                  </div>
-                </div>
-              </div>
+              {/* Wooden Frame Wrapping the PuzzleGrid */}
+              <WoodenFrame>
+                <PuzzleGrid pieces={allPuzzlePieces} />
+              </WoodenFrame>
             </div>
           </div>
         </section>

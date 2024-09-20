@@ -1,3 +1,4 @@
+// src\app\PuzzlePieces\PuzzleImage.tsx
 
 import React from "react";
 
@@ -7,18 +8,11 @@ interface PuzzleImageProps {
   className?: string;
 }
 
-const PuzzleImage: React.FC<PuzzleImageProps> = ({
-  src,
-  alt,
-  className = "",
-}) => {
+const PuzzleImage: React.FC<PuzzleImageProps> = ({ src, alt, className }) => {
   return (
-    <img
-      loading="lazy"
-      src={src}
-      alt={alt}
-      className={`object-contain shrink-0 max-w-full aspect-[0.98] w-[300px] ${className}`}
-    />
+    <div className={`w-36 h-36 flex items-center justify-center overflow-hidden ${className}`}>
+      <img src={src} alt={alt} className="w-full h-full object-cover" />
+    </div>
   );
 };
 
