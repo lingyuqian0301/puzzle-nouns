@@ -74,6 +74,12 @@ const FormArtwork: React.FC = () => {
     });
   };
 
+  // Handler to select all pieces
+  const handleSelectAll = () => {
+    const allIndices = allPuzzlePieces.map((_, index) => index);
+    setSelectedPieces(new Set(allIndices));
+  };
+
   // Check if all 27 pieces are selected
   const allSelected = selectedPieces.size === allPuzzlePieces.length;
 
@@ -93,6 +99,20 @@ const FormArtwork: React.FC = () => {
           <h1 className="text-center text-2xl font-bold mb-4">
             Puzzle pieces (27/27)
           </h1>
+          {/* "Select All" Button */}
+          <div className="flex justify-end mb-4">
+            <button
+              onClick={handleSelectAll}
+              className={`px-4 py-2 rounded-md transition-colors duration-200 ${
+                allSelected
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-green-500 hover:bg-green-600 text-white"
+              }`}
+              disabled={allSelected}
+            >
+              {allSelected ? "All Selected" : "Select All"}
+            </button>
+          </div>
           <WoodenFrame>
             <PuzzleGrid
               pieces={allPuzzlePieces}
