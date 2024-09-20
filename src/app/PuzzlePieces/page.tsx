@@ -1,17 +1,24 @@
-// src\app\PuzzlePieces\PuzzlePieces.tsx
-
-import React from "react"; 
+"use client";
+import React, { useState, useEffect } from "react";
 import PuzzleGrid from "./PuzzleGrid";
 import PuzzleImage from "./PuzzleImage";
 import Header from "../FormArtwork/Header";
 import Footer from "../PuzzleNoun/Footer";
 
 import Link from "next/link";
+import { FacebookShareButton, TwitterShareButton, LinkedinShareButton } from "react-share"; // Import react-share buttons
 import WoodenFrame from "./WoodenFrame"; // Import the WoodenFrame component
+
 
 interface PuzzlePiecesProps { }
 
 const PuzzlePieces: React.FC<PuzzlePiecesProps> = () => {
+  const [isClient, setIsClient] = useState(false); // Track if the component is running on client
+  const [currentUrl, setCurrentUrl] = useState('');
+  useEffect(() => {
+    setIsClient(true); // Component is mounted on the client
+    setCurrentUrl(window.location.href);
+  }, [])
   const smallPuzzlePieces = [
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/8ee26f0ea7b344b2983fa75d0cb08b222468584704e848236f4688ba31c7cb62?placeholderIfAbsent=true&apiKey=0f10dcf47d4a4bb986b4f458dff7f90a",
@@ -73,21 +80,39 @@ const PuzzlePieces: React.FC<PuzzlePiecesProps> = () => {
                   Quiz
                 </button>
               </Link>
-              <Link href="">
-                <button className="ml-2 px-4 py-2 bg-green-500 text-white font-semibold rounded-lg shadow-md hover:bg-green-600 transition">
-                  Share
-                </button>
-              </Link>
+              <div className="ml-2 flex space-x-2">
+                <FacebookShareButton url={currentUrl} hashtag="#NounsNFT">
+                  <div className="px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition" >
+                    Share on Facebook
+                  </div>
+                </FacebookShareButton>
+                <TwitterShareButton url={currentUrl} title="Check out my completed puzzle on Nouns NFT!" hashtags={["NounsNFT"]}>
+                  <div className="px-4 py-2 bg-blue-400 text-white font-semibold rounded-lg shadow-md hover:bg-blue-500 transition">
+                    Share on Twitter
+                  </div>
+                </TwitterShareButton>
+                <LinkedinShareButton url={currentUrl} summary="Check out my completed puzzle on Nouns NFT!" source="Nouns NFT">
+                  <div className="px-4 py-2 bg-blue-700 text-white font-semibold rounded-lg shadow-md hover:bg-blue-800 transition">
+                    Share on LinkedIn
+                  </div>
+                </LinkedinShareButton>
+              </div>
             </div>
           </div>
-          <div className="mt-12 w-full max-md:mt-6 max-md:max-w-full">
+          <div className="mt-12 w-full max-md:mt-6 max-md:max-w-full flex justify-center items-center">
             <div className="flex gap-6 max-md:flex-col">
               {/* Wooden Frame Wrapping the PuzzleGrid */}
               <WoodenFrame>
-                <PuzzleGrid pieces={allPuzzlePieces} />
+                <PuzzleGrid
+                  pieces={allPuzzlePieces}
+                  onSelect={function (index: number): void {
+                    throw new Error("Function not implemented.");
+                  }}
+                />
               </WoodenFrame>
             </div>
           </div>
+
         </section>
       </main>
       <Footer />
