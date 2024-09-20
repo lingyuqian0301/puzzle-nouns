@@ -32,7 +32,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts"
-, "src/app/ArtWork"  ],
+, "src/app/ArtWork", "src/app/api/build/route.ts"  ],
   "exclude": [
     "node_modules"
   ]
