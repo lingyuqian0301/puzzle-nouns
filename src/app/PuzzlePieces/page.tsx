@@ -5,9 +5,11 @@ import PuzzleGrid from "./PuzzleGrid";
 import PuzzleImage from "./PuzzleImage";
 import Header from "../FormArtwork/Header";
 import Footer from "../PuzzleNoun/Footer";
+
+import Link from "next/link";
 import WoodenFrame from "./WoodenFrame"; // Import the WoodenFrame component
 
-interface PuzzlePiecesProps {}
+interface PuzzlePiecesProps { }
 
 const PuzzlePieces: React.FC<PuzzlePiecesProps> = () => {
   const smallPuzzlePieces = [
@@ -59,9 +61,25 @@ const PuzzlePieces: React.FC<PuzzlePiecesProps> = () => {
       <Header />
       <main className="flex overflow-hidden flex-col items-center px-0 pt-32 bg-white pb-[300px] max-md:px-5 max-md:py-16">
         <section className="flex flex-col w-full max-w-[1600px] max-md:max-w-full">
+
           <h1 className="self-center max-md:pt-24 font-bold text-black">
             Puzzle pieces (27/27)
           </h1>
+          <div className="flex items-center self-center gap-4 justify-between mt-10 mr-10 max-w-[1200px]">
+            <div className="flex items-center gap-4 text-lg">
+              Gain your missing pieces:
+              <Link href="/Quiz">
+                <button type="submit" className="ml-2 px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 transition">
+                  Quiz
+                </button>
+              </Link>
+              <Link href="">
+                <button className="ml-2 px-4 py-2 bg-green-500 text-white font-semibold rounded-lg shadow-md hover:bg-green-600 transition">
+                  Share
+                </button>
+              </Link>
+            </div>
+          </div>
           <div className="mt-12 w-full max-md:mt-6 max-md:max-w-full">
             <div className="flex gap-6 max-md:flex-col">
               {/* Wooden Frame Wrapping the PuzzleGrid */}
