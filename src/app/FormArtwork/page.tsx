@@ -7,6 +7,7 @@ import Header from "./Header";
 import Footer from "../PuzzleNoun/Footer";
 import PuzzleGrid from "../PuzzlePieces/PuzzleGrid";
 import WoodenFrame from "../PuzzlePieces/WoodenFrame"; // Adjust the import path as necessary
+import Artwork from "./Artwork";
 
 interface PuzzlePiece {
   src: string;
@@ -14,6 +15,7 @@ interface PuzzlePiece {
 }
 
 const FormArtwork: React.FC = () => {
+  const [showArtwork, setShowArtwork] = useState<boolean>(false);
   const smallPuzzlePieces: PuzzlePiece[] = [
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/8ee26f0ea7b344b2983fa75d0cb08b222468584704e848236f4688ba31c7cb62?placeholderIfAbsent=true&apiKey=0f10dcf47d4a4bb986b4f458dff7f90a",
@@ -87,6 +89,7 @@ const FormArtwork: React.FC = () => {
   const handleFormArtwork = () => {
     // Placeholder for future functionality
     // For example, opening a modal or navigating to another page
+    setShowArtwork(true);
     console.log("Form an Artwork button clicked!");
     alert("Form an Artwork functionality to be implemented.");
   };
@@ -104,8 +107,8 @@ const FormArtwork: React.FC = () => {
             <button
               onClick={handleSelectAll}
               className={`px-4 py-2 rounded-md transition-colors duration-200 ${allSelected
-                  ? "bg-gray-400 cursor-not-allowed"
-                  : "bg-green-500 hover:bg-green-600 text-white"
+                ? "bg-gray-400 cursor-not-allowed"
+                : "bg-green-500 hover:bg-green-600 text-white"
                 }`}
               disabled={allSelected}
             >
@@ -132,6 +135,7 @@ const FormArtwork: React.FC = () => {
           )}
         </section>
       </main>
+      {showArtwork && <Artwork />}
       <Footer />
     </div>
   );
