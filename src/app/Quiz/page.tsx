@@ -11,7 +11,7 @@ const PuzzleNouns: React.FC = () => {
     const [ChoiceC, setChoiceC] = useState("");
     const [Answer, setAnswer] = useState("");
     const [Index, setIndex] = useState<number>(1);
-    const [showLink, setShowLink] = useState<boolean>(false); 
+    const [showLink, setShowLink] = useState<boolean>(false);
 
 
     const fetchQuizData = async () => {
@@ -34,12 +34,22 @@ const PuzzleNouns: React.FC = () => {
         }
     };
 
-    const handleButtonClick = (choice: string) => {
+    const handleButtonClick = async (choice: string) => {
         console.log(`Button ${choice} was clicked!`);
         if (choice === Answer) {
             if (Index % 5 == 0) {
-                alert("Congradulations! You have earned a puzzle piece!");
-                setShowLink(true);
+                const response = await fetch("/api/mint", {
+                    method: "POST",
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: "mintPiece" })
+                });
+                const data = await response.json();
+                if (data == "Success") {
+                    alert("Congradulations! You have earned a puzzle piece!");
+                    setShowLink(true);
+                } else {
+                    console.log("mint failed");
+                }
             }
             else {
                 alert("Correct! Let's move on!");
@@ -61,7 +71,7 @@ const PuzzleNouns: React.FC = () => {
     return (
         <div className="flex flex-col bg-gray-100">
             <Header />
-            <main className="flex flex-col items-center px-40 py-10 bg-white shadow-md rounded-lg mx-auto max-w-full">
+            <main className="flex flex-col items-center mt-10 px-40 py-10 bg-white shadow-md rounded-lg mx-auto max-w-full">
                 <h1 className="text-3xl font-bold text-black mb-5">
                     Blockchain Quiz
                 </h1>

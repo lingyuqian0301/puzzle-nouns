@@ -7,6 +7,8 @@ import sharp from 'sharp';
 const OPENAI_API_KEY = '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';
 const API_URL = 'https://api.openai.com/v1/images/generations';
 
+let pic_index = 1;
+
 async function generateNFT(prompt: string): Promise<string> {
     try {
         const modifiedPrompt = `${prompt} and a pixel art character in the style of Nouns, featuring colorful, cartoonish character with oversized glasses and a unique hat and small body`;
@@ -45,7 +47,7 @@ async function downloadImage(imageUrl: string, filePath: string) {
     });
 }
 
-async function cutImageIntoPieces(imagePath: string) {
+async function cutImageIntoPieces(imagePath: string, index: Number) {
     for (let row = 0; row < 3; row++) {
         for (let col = 0; col < 3; col++) {
             console.log(imagePath);
@@ -59,7 +61,7 @@ async function cutImageIntoPieces(imagePath: string) {
 
             // Use Math.floor to ensure pieceSize is an integer
             const pieceSize = Math.floor(size / 3);
-            const outputDir = path.join(process.cwd(), 'src/app/img/');
+            const outputDir = path.join(process.cwd(), 'src/app/img/pieces');
             const left = col * pieceSize;
             const top = row * pieceSize;
 
@@ -80,7 +82,7 @@ async function cutImageIntoPieces(imagePath: string) {
 
             // Ensure width and height are positive integers
             if (width > 0 && height > 0) {
-                await image.extract({ left, top, width, height }).toFile(path.join(outputDir, `piece_${row}_${col}.png`));
+                await image.extract({ left, top, width, height }).toFile(path.join(outputDir, `piece_${index}_${row}_${col}.png`));
             } else {
                 console.warn(`Skipping extraction for row ${row}, col ${col} due to invalid size`);
             }
@@ -100,11 +102,27 @@ export async function POST(req: NextRequest) {
         const imageUrl = await generateNFT(prompt);
 
         // Define the path to save the image
-        const filePath = path.join(process.cwd(), 'src/app/img/origin.png');
-
-        // Download and save the image locally
-        await downloadImage(imageUrl, filePath);
-        await cutImageIntoPieces(filePath);
+        if (pic_index == 1) {
+            const filePath = path.join(process.cwd(), 'src/app/img/origin/origin1.png');
+            // Download and save the image locally
+            await downloadImage(imageUrl, filePath);
+            await cutImageIntoPieces(filePath, pic_index);
+            pic_index++;
+        } else if (pic_index == 2) {
+            const filePath = path.join(process.cwd(), 'src/app/img/origin/origin2.png');
+            // Download and save the image locally
+            await downloadImage(imageUrl, filePath);
+            await cutImageIntoPieces(filePath, pic_index);
+            pic_index++;
+        } else if (pic_index == 3) {
+            const filePath = path.join(process.cwd(), 'src/app/img/origin/origin3.png');
+            // Download and save the image locally
+            await downloadImage(imageUrl, filePath);
+            await cutImageIntoPieces(filePath, pic_index);
+            pic_index++;
+        } else {
+            alert("You already generated 3 pictures!");
+        }
 
         return NextResponse.json({ imageUrl });
     } catch (error) {
