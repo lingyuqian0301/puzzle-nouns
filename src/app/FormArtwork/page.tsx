@@ -2,7 +2,7 @@
 
 "use client"; // Marking this file as a Client Component
 
-import React, { useState } from "react"; 
+import React, { useState } from "react";
 import Header from "./Header";
 import Footer from "../PuzzleNoun/Footer";
 import PuzzleGrid from "../PuzzlePieces/PuzzleGrid";
@@ -103,11 +103,10 @@ const FormArtwork: React.FC = () => {
           <div className="flex justify-end mb-4">
             <button
               onClick={handleSelectAll}
-              className={`px-4 py-2 rounded-md transition-colors duration-200 ${
-                allSelected
+              className={`px-4 py-2 rounded-md transition-colors duration-200 ${allSelected
                   ? "bg-gray-400 cursor-not-allowed"
                   : "bg-green-500 hover:bg-green-600 text-white"
-              }`}
+                }`}
               disabled={allSelected}
             >
               {allSelected ? "All Selected" : "Select All"}
