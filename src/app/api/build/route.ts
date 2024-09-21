@@ -4,8 +4,8 @@ import fs from 'fs';
 import path from 'path';
 import sharp from 'sharp';
 
-async function generatePiece(prompt: number, index: number) {
-    const imagePath = path.join(process.cwd(), 'public/${prompt}/${number}.svg')
+async function generatePiece(prompt: string, index: number) {
+    const imagePath = path.join(process.cwd(), `public/${prompt}/${index}.svg`)
     for (let row = 0; row < 3; row++) {
         for (let col = 0; col < 3; col++) {
             console.log(imagePath);
@@ -41,8 +41,8 @@ async function generatePiece(prompt: number, index: number) {
             // Ensure width and height are positive integers
             if (width > 0 && height > 0) {
                 const img = image.extract({ left, top, width, height });
-                await img.toFile(path.join(outputDir, `piece_${prompt}_${row}_${col}.png`));
-                const piece_id = 3 * (row + 1) + col;
+                const piece_id = 3 * row + col + 1;
+                await img.toFile(path.join(outputDir, `piece_${prompt}_${piece_id}.png`));
             } else {
                 console.warn(`Skipping extraction for row ${row}, col ${col} due to invalid size`);
             }
@@ -69,11 +69,11 @@ export async function POST(req: NextRequest) {
         const accessory = await generateRandomNum(promptAccessory);
         console.log({ head }, { body }, { accessory })
         const imageUrl = await generateNFT(head % 234, body % 30, accessory % 137);
-        //await generatePiece(head, "head");
-        //await generatePiece(body, );
-        //await generatePiece(accessory, 3);
+        await generatePiece("head", head);
+        await generatePiece("body", body);
+        await generatePiece("accessory", accessory);
         console.log(imageUrl);
-        return NextResponse.json({ imageUrl });
+        return NextResponse.json({ imageUrl, head, body, accessory });
     } catch (error) {
         console.error('Error:', error);
         return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });

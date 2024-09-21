@@ -21,15 +21,20 @@ const NFTBuild: React.FC = () => {
       body: JSON.stringify({ promptHead, promptBody, promptAccessory }),
     });
 
-    if (!response.ok) {
-      console.error("Failed to fetch image URL");
-      return;
-    }
+        if (!response.ok) {
+            console.error("Failed to fetch image URL");
+            return;
+        }
 
-    const data = await response.json();
-    setImageUrl(data.imageUrl);
-    console.log(data.imageUrl);
-  };
+        const data = await response.json();
+        const head_num = data.head;
+        const body_num = data.body;
+        const accessory_num = data.accessory;
+        console.log({ head_num, body_num, accessory_num });
+        setImageUrl(data.imageUrl);
+        console.log(data.imageUrl);
+    };
+
 
   return (
     <section className="flex flex-col items-center">
