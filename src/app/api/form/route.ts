@@ -1,41 +1,34 @@
 import axios from 'axios';
 import { NextRequest, NextResponse } from 'next/server';
+import sharp from 'sharp';
+import fs from 'fs';
+import path from 'path';
 
 const OPENAI_API_KEY = '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';
 const API_URL = 'https://api.openai.com/v1/images/generations';
 
-async function generateArtwork(prompt: string): Promise<string> {
-    try {
-        const modifiedPrompt = `a pixel character featuring wearing oversized glasses and a unique hat and having small body and ${prompt}`;
-        const response = await axios.post(
-            API_URL,
-            {
-                prompt: modifiedPrompt,
-                n: 1,
-                size: '1024x1024',
-            },
-            {
-                headers: {
-                    'Authorization': `Bearer ${OPENAI_API_KEY}`,
-                    'Content-Type': 'application/json',
-                },
-            }
-        );
-        const imageUrl = response.data.data[0].url;
-        console.log(imageUrl);
-        return imageUrl;
-    } catch (error) {
-        console.error('Error generating NFT:', error);
-        throw error;
-    }
+async function getNFTs() {
+    // return 3 NFT imageurl
 }
 
-async function getPrompt() {
-    for (let i = 1; i < 4; i++) { 
-        // get 3 prompt and combine
-    }
+function getRandomPosition(backgroundWidth: number, backgroundHeight: number, imageWidth: number, imageHeight: number) {
+    const x = Math.floor(Math.random() * (backgroundWidth - imageWidth));
+    const y = Math.floor(Math.random() * (backgroundHeight - imageHeight));
+    return { x, y };
 }
 
-export async function POST(req: NextRequest) {
+async function generateArtwork() {
     
+}
+
+
+export async function GET(req: NextRequest) {
+    try {
+        // Generate or fetch the NFT image URL
+        const imageUrl = await generateArtwork();
+        return NextResponse.json({ imageUrl });
+    } catch (error) {
+        console.error("Error generating image:", error);
+        return NextResponse.json({ error: "Failed to generate image" }, { status: 500 });
+    }
 }

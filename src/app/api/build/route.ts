@@ -3,74 +3,24 @@ import { NextRequest, NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
 import sharp from 'sharp';
-import { create } from 'ipfs-http-client';
 
-const OPENAI_API_KEY = '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';
-const API_URL = 'https://api.openai.com/v1/images/generations';
+async function generateTraits(prompt: string) {
 
-let nft_urls = [];
-let piece_urls = [];
-let pic_index = 1;
-
-const projectId = "949e9149cbf34c169ac51dfe1bd143c7";
-const projectSecret = "lf9SZXlcKBiz9q2V5DIOk1gTAGINvmivN4YxWxXWC2aJ1F64OWuF8w";
-
-const auth = 'Basic ' + Buffer.from(`${projectId}:${projectSecret}`).toString('base64');
-
-const ipfs = create({
-    host: 'ipfs.infura.io',
-    port: 5001,
-    protocol: 'https',
-    headers: {
-        authorization: auth,
-    },
-});
-
-// Function to upload a file
-async function uploadPieceToIPFS(filePath: string) {
-    const file = fs.readFileSync(filePath);
-    const result = await ipfs.add(file);
-    const imageUrl = `https://ipfs.infura.io/ipfs/${result.path}`;
-    return imageUrl;
 }
 
-async function uploadNFTToIPFS(filePath: string, metadata: sharp.Metadata, characteristic: string) {
-    const file = fs.readFileSync(filePath);
-    const result = await ipfs.add(file);
-    const imageUrl = `https://ipfs.infura.io/ipfs/${result.path}`;
-    const metadataResult = await ipfs.add(JSON.stringify(metadata));
-    const metadataUrl = `https://ipfs.infura.io/ipfs/${metadataResult.path}`;
-    const characteristicResult = await ipfs.add(JSON.stringify(characteristic));
-    const characteristicUrl = `https://ipfs.infura.io/ipfs/${characteristicResult.path}`;
-    return { imageUrl, metadataUrl, characteristicUrl };
-}
-
-
-async function generateNFT(prompt: string): Promise<string> {
+async function generateNFT(promptHead: number, promptBody: number, promptAccessory: number) {
     try {
-        const modifiedPrompt = `a pixel character featuring wearing oversized glasses and a unique hat and having small body and ${prompt}`;
-        const response = await axios.post(
-            API_URL,
-            {
-                prompt: modifiedPrompt,
-                n: 1,
-                size: '1024x1024',
-            },
-            {
-                headers: {
-                    'Authorization': `Bearer ${OPENAI_API_KEY}`,
-                    'Content-Type': 'application/json',
-                },
-            }
-        );
-        const imageUrl = response.data.data[0].url;
-        console.log(imageUrl);
-        return imageUrl;
+        const response = await fetch(`https://api.cloudnouns.com/v1/pfp?head=${promptHead}&body=${promptBody}&accessory=${promptAccessory}`);
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        const svgText = await response.text();
+        return svgText;
     } catch (error) {
-        console.error('Error generating NFT:', error);
-        throw error;
+        console.error('Error fetching SVG:', error);
     }
-}
+};
+
 
 async function getImageMetadata(imageUrl: string) {
     const response = await axios.get(imageUrl, { responseType: 'arraybuffer' });
@@ -117,9 +67,6 @@ async function cutImageIntoPieces(imagePath: string, index: Number) {
             if (width > 0 && height > 0) {
                 const img = image.extract({ left, top, width, height });
                 await img.toFile(path.join(outputDir, `piece_${index}_${row}_${col}.png`));
-                const url = await uploadPieceToIPFS(path.join(outputDir, `piece_${index}_${row}_${col}.png`))
-                piece_urls.push(url);
-                console.log(url);
             } else {
                 console.warn(`Skipping extraction for row ${row}, col ${col} due to invalid size`);
             }
@@ -127,26 +74,23 @@ async function cutImageIntoPieces(imagePath: string, index: Number) {
     }
 }
 
-
+async function generateRandomNum(prompt: string) {
+    return prompt.length;
+}
 
 export async function POST(req: NextRequest) {
     try {
-        const { prompt } = await req.json();
-        if (!prompt) {
+        const { promptHead, promptBody, promptAccessory } = await req.json();
+        if (!promptHead || !promptBody || !promptAccessory) {
             return NextResponse.json({ error: 'Prompt is required' }, { status: 400 });
         }
-        const imageUrl = await generateNFT(prompt);
-        // Define the path to save the image
-        const filePath = path.join(process.cwd(), 'src/app/img/origin/origin${pic_index}.png');
-        // Download and save the image locally
-        const metadata = await getImageMetadata(imageUrl);
-        console.log(metadata);
-        await cutImageIntoPieces(filePath, pic_index);
-        pic_index++;
-        const url = await uploadNFTToIPFS(filePath, metadata, prompt);
-        console.log(url);
-        nft_urls.push(url);
-        return NextResponse.json({ imageUrl });
+        const head = await generateRandomNum(promptHead);
+        const body = await generateRandomNum(promptBody);
+        const accessory = await generateRandomNum(promptAccessory);
+        console.log({ head }, { body }, { accessory })
+
+        const svgText = await generateNFT(head % 234, body % 30, accessory % 137);
+        return NextResponse.json({ svgText });
     } catch (error) {
         console.error('Error:', error);
         return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
