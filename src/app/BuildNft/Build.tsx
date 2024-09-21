@@ -8,7 +8,7 @@ const NFTBuild: React.FC = () => {
   const [promptHead, setPromptHead] = useState("");
   const [promptBody, setPromptBody] = useState("");
   const [promptAccessory, setPromptAccessory] = useState("");
-  const [svgText, setSvgText] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -20,18 +20,21 @@ const NFTBuild: React.FC = () => {
       },
       body: JSON.stringify({ promptHead, promptBody, promptAccessory }),
     });
-    setSvgText(await response.json());
-    console.log(svgText);
+
+    if (!response.ok) {
+      console.error("Failed to fetch image URL");
+      return;
+    }
+
+    const data = await response.json();
+    setImageUrl(data.imageUrl);
+    console.log(data.imageUrl);
   };
 
   return (
     <section className="flex flex-col items-center">
       <section className="flex flex-col items-center">
-        {svgText ? (
-          <div dangerouslySetInnerHTML={{ __html: svgText }} />
-        ) : (
-          <p>Loading...</p>
-        )}
+        {imageUrl && <img src={imageUrl} alt="Generated NFT" />}
       </section>
       <form
         method="POST"

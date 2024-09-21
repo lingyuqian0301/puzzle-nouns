@@ -4,7 +4,7 @@ import fs from 'fs';
 import path from 'path';
 import sharp from 'sharp';
 
-async function generatePiece(prompt: string, index: number) {
+async function generatePiece(prompt: number, index: number) {
     const imagePath = path.join(process.cwd(), 'public/${prompt}/${number}.svg')
     for (let row = 0; row < 3; row++) {
         for (let col = 0; col < 3; col++) {
@@ -51,16 +51,7 @@ async function generatePiece(prompt: string, index: number) {
 }
 
 async function generateNFT(promptHead: number, promptBody: number, promptAccessory: number) {
-    try {
-        const response = await fetch(`https://api.cloudnouns.com/v1/pfp?head=${promptHead}&body=${promptBody}&accessory=${promptAccessory}`);
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        const svgText = await response.text();
-        return svgText;
-    } catch (error) {
-        console.error('Error fetching SVG:', error);
-    }
+    return `https://api.cloudnouns.com/v1/pfp?head=${promptHead}&body=${promptBody}&accessory=${promptAccessory}`;
 };
 
 async function generateRandomNum(prompt: string) {
@@ -77,9 +68,12 @@ export async function POST(req: NextRequest) {
         const body = await generateRandomNum(promptBody);
         const accessory = await generateRandomNum(promptAccessory);
         console.log({ head }, { body }, { accessory })
-
-        const svgText = await generateNFT(head % 234, body % 30, accessory % 137);
-        return NextResponse.json({ svgText });
+        const imageUrl = await generateNFT(head % 234, body % 30, accessory % 137);
+        //await generatePiece(head, "head");
+        //await generatePiece(body, );
+        //await generatePiece(accessory, 3);
+        console.log(imageUrl);
+        return NextResponse.json({ imageUrl });
     } catch (error) {
         console.error('Error:', error);
         return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
