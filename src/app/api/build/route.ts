@@ -4,33 +4,8 @@ import fs from 'fs';
 import path from 'path';
 import sharp from 'sharp';
 
-async function generateTraits(prompt: string) {
-
-}
-
-async function generateNFT(promptHead: number, promptBody: number, promptAccessory: number) {
-    try {
-        const response = await fetch(`https://api.cloudnouns.com/v1/pfp?head=${promptHead}&body=${promptBody}&accessory=${promptAccessory}`);
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        const svgText = await response.text();
-        return svgText;
-    } catch (error) {
-        console.error('Error fetching SVG:', error);
-    }
-};
-
-
-async function getImageMetadata(imageUrl: string) {
-    const response = await axios.get(imageUrl, { responseType: 'arraybuffer' });
-    const imageBuffer = Buffer.from(response.data);
-    const metadata = await sharp(imageBuffer).metadata();
-    return metadata
-}
-
-
-async function cutImageIntoPieces(imagePath: string, index: Number) {
+async function generatePiece(prompt: string, index: number) {
+    const imagePath = path.join(process.cwd(), 'public/${prompt}/${number}.svg')
     for (let row = 0; row < 3; row++) {
         for (let col = 0; col < 3; col++) {
             console.log(imagePath);
@@ -44,7 +19,7 @@ async function cutImageIntoPieces(imagePath: string, index: Number) {
 
             // Use Math.floor to ensure pieceSize is an integer
             const pieceSize = Math.floor(size / 3);
-            const outputDir = path.join(process.cwd(), 'src/app/img/pieces');
+            const outputDir = path.join(process.cwd(), 'public/pieces');
             const left = col * pieceSize;
             const top = row * pieceSize;
 
@@ -66,13 +41,27 @@ async function cutImageIntoPieces(imagePath: string, index: Number) {
             // Ensure width and height are positive integers
             if (width > 0 && height > 0) {
                 const img = image.extract({ left, top, width, height });
-                await img.toFile(path.join(outputDir, `piece_${index}_${row}_${col}.png`));
+                await img.toFile(path.join(outputDir, `piece_${prompt}_${row}_${col}.png`));
+                const piece_id = 3 * (row + 1) + col;
             } else {
                 console.warn(`Skipping extraction for row ${row}, col ${col} due to invalid size`);
             }
         }
     }
 }
+
+async function generateNFT(promptHead: number, promptBody: number, promptAccessory: number) {
+    try {
+        const response = await fetch(`https://api.cloudnouns.com/v1/pfp?head=${promptHead}&body=${promptBody}&accessory=${promptAccessory}`);
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        const svgText = await response.text();
+        return svgText;
+    } catch (error) {
+        console.error('Error fetching SVG:', error);
+    }
+};
 
 async function generateRandomNum(prompt: string) {
     return prompt.length;
