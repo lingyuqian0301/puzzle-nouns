@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 
 const Artwork: React.FC = () => {
-    const [svgText, setSvgText] = useState("")
+    const [imageUrl, setImageUrl] = useState("")
 
     useEffect(() => {
         const fetchImage = async () => {
@@ -10,7 +10,7 @@ const Artwork: React.FC = () => {
                 const response = await fetch("/api/form");
                 if (response.ok) {
                     const data = await response.json();
-                    setSvgText(data.svgText);
+                    setImageUrl(data.imageUrl);
                 } else {
                     console.error("Failed to fetch the image:", response.statusText);
                 }
@@ -25,11 +25,9 @@ const Artwork: React.FC = () => {
     return (
         <section className="flex flex-col items-center">
             <section className="flex flex-col items-center">
-                {svgText ? (
-                    <div dangerouslySetInnerHTML={{ __html: svgText }} />
-                ) : (
-                    <p>Loading...</p>
-                )}
+                <section className="flex flex-col items-center">
+                    {imageUrl && <img src={imageUrl} alt="Generated NFT" />}
+                </section>
             </section>
         </section>
     );

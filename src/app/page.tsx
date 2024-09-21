@@ -1,5 +1,5 @@
 import React from "react";
-import Header from "./FormArtwork/Header";
+import Header from "./PuzzleNoun/Header";
 import Hero from "./PuzzleNoun/Hero";
 import Footer from "./PuzzleNoun/Footer";
 import PuzzleSteps from "./PuzzleNoun/PuzzleSteps";
