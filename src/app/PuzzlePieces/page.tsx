@@ -1,12 +1,13 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import Header from "../FormArtwork/Header";
+import Header from "../PuzzleNoun/Header";
 import Footer from "../PuzzleNoun/Footer";
 
 import Link from "next/link";
 import { FacebookShareButton, TwitterShareButton, LinkedinShareButton } from "react-share"; // Import react-share buttons
 import WoodenFrame from "./WoodenFrame"; // Import the WoodenFrame component
 import PuzzleGrid from "./PuzzleGrid";
+import Artwork from "./Artwork";
 
 
 interface PuzzlePiecesProps { }
@@ -15,38 +16,40 @@ const PuzzlePieces: React.FC<PuzzlePiecesProps> = () => {
   const [isClient, setIsClient] = useState(false); // Track if the component is running on client
   const [currentUrl, setCurrentUrl] = useState('');
   const [pieceNum, setPieceNum] = useState<number>(1);
+  const [showArtwork, setShowArtwork] = useState<boolean>(false);
 
   useEffect(() => {
     setIsClient(true);
     setCurrentUrl(window.location.href);
-    const fetchPieceNum = async () => {
-      try {
-        const response = await fetch("/api/pieces", {
-          method: "POST",
-        });
 
-        if (!response.ok) {
-          throw new Error("Failed to fetch piece number");
-        }
-
-        const data = await response.json();
-        setPieceNum(data.piece_num);
-      } catch (error) {
-        console.error("Error fetching piece number:", error);
-      }
-    };
-    fetchPieceNum();
+    //update piece_num
+    setPieceNum(27);
   }, []);
-  const smallPuzzlePieces = Array.from({ length: pieceNum }, (_, index) => ({
-    src: `../../../public/pieces/${index + 1}.svg`,
+
+  const headPuzzlePieces = Array.from({ length: Math.min(pieceNum, 9) }, (_, index) => ({
+    src: `/pieces/piece_head_${index + 1}.png`
+  }));
+  const bodyPuzzlePieces = Array.from({ length: (pieceNum - 9) > 0 ? Math.min(pieceNum - 9, 9) : 0 }, (_, index) => ({
+    src: `/pieces/piece_body_${index + 1}.png`
+  }));
+  const accessoryPuzzlePieces = Array.from({ length: (pieceNum - 18) > 0 ? Math.min(pieceNum - 18, 9) : 0 }, (_, index) => ({
+    src: `/pieces/piece_accessory_${index + 1}.png`
   }));
 
-  const blankPuzzlePieces = Array.from({ length: 27 }, (_, index) => ({
+  const blankPuzzlePieces = Array.from({ length: 27 - pieceNum }, (_) => ({
     src: "https://via.placeholder.com/150?text=Blank",
   }));
 
   // Combine small and blank puzzle pieces
-  const allPuzzlePieces = [...smallPuzzlePieces, ...blankPuzzlePieces];
+  const allPuzzlePieces = [...headPuzzlePieces, ...bodyPuzzlePieces, ...accessoryPuzzlePieces, ...blankPuzzlePieces];
+
+  const handleFormArtwork = () => {
+    // Placeholder for future functionality
+    // For example, opening a modal or navigating to another page
+    setShowArtwork(true);
+    console.log("Form an Artwork button clicked!");
+    alert("Form an Artwork functionality to be implemented.");
+  };
 
   return (
     <>
@@ -92,7 +95,14 @@ const PuzzlePieces: React.FC<PuzzlePiecesProps> = () => {
               </WoodenFrame>
             </div>
           </div>
-
+          <button
+            onClick={handleFormArtwork}
+            className="mt-6 px-6 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors duration-200"
+          >
+            Form an Artwork
+          </button>
+          {showArtwork && <Artwork />}
+          <Footer />
         </section>
       </main>
       <Footer />

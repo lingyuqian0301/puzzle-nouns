@@ -42,7 +42,7 @@ async function generatePiece(prompt: string, index: number) {
             if (width > 0 && height > 0) {
                 const img = image.extract({ left, top, width, height });
                 const piece_id = 3 * row + col + 1;
-                await img.toFile(path.join(outputDir, `piece_${prompt}_${piece_id}.png`));
+                await img.toFile(path.join(outputDir, `piece_${prompt}_${piece_id}.svg`));
             } else {
                 console.warn(`Skipping extraction for row ${row}, col ${col} due to invalid size`);
             }
