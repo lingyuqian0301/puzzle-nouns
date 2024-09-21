@@ -1,9 +1,9 @@
-
 import React from "react";
 import Header from "./FormArtwork/Header";
 import Hero from "./PuzzleNoun/Hero";
 import Footer from "./PuzzleNoun/Footer";
 import PuzzleSteps from "./PuzzleNoun/PuzzleSteps";
+
 const PuzzleNouns: React.FC = () => {
   return (
     <div>
