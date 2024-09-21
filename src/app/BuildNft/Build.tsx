@@ -22,12 +22,16 @@ const NFTBuild: React.FC = () => {
 
         if (!response.ok) {
             console.error("Failed to fetch image URL");
-            return; 
+            return;
         }
 
         const data = await response.json();
-        setImageUrl(data.imageUrl); 
-        console.log(data.imageUrl); 
+        const head_num = data.head;
+        const body_num = data.body;
+        const accessory_num = data.accessory;
+        console.log({ head_num, body_num, accessory_num });
+        setImageUrl(data.imageUrl);
+        console.log(data.imageUrl);
     };
 
 
