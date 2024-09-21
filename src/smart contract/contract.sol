@@ -1,13 +1,11 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.27;
+pragma solidity ^0.8.24;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract NounsPuzzleNFT is ERC721, Ownable {
-    using Counters for Counters.Counter;
-    Counters.Counter private _tokenIds;
+    uint256 private _tokenIds;
 
     struct PuzzlePiece {
         uint256 tokenId;
@@ -30,9 +28,8 @@ contract NounsPuzzleNFT is ERC721, Ownable {
 
     // Function to create a new puzzle piece
     function createPuzzlePiece(address recipient, bool isQuestion, string memory metadata) public onlyOwner returns (uint256) {
-        _tokenIds.increment();
-        uint256 newItemId = _tokenIds.current();
-        
+        _tokenIds += 1;  // Increment the token ID manually
+        uint256 newItemId = _tokenIds;
         _mint(recipient, newItemId);
         puzzlePieces[newItemId] = PuzzlePiece({
             tokenId: newItemId,
