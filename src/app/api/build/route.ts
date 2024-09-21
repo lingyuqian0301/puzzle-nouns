@@ -12,8 +12,19 @@ let nft_urls = [];
 let piece_urls = [];
 let pic_index = 1;
 
-// IPFS client
-const ipfs = create({ host: 'ipfs.infura.io', port: 5001, protocol: 'https' });
+const projectId = "949e9149cbf34c169ac51dfe1bd143c7";
+const projectSecret = "lf9SZXlcKBiz9q2V5DIOk1gTAGINvmivN4YxWxXWC2aJ1F64OWuF8w";
+
+const auth = 'Basic ' + Buffer.from(`${projectId}:${projectSecret}`).toString('base64');
+
+const ipfs = create({
+    host: 'ipfs.infura.io',
+    port: 5001,
+    protocol: 'https',
+    headers: {
+        authorization: auth,
+    },
+});
 
 // Function to upload a file
 async function uploadPieceToIPFS(filePath: string) {
